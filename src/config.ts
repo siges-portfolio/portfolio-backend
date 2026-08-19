@@ -10,11 +10,8 @@ import { z } from "zod";
 const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(3000),
 
-  SMTP_HOST: z.string().min(1, "SMTP_HOST is required"),
-  SMTP_PORT: z.coerce.number().int().positive().default(587),
-  SMTP_USER: z.string().min(1, "SMTP_USER is required"),
-  SMTP_PASSWORD: z.string().min(1, "SMTP_PASSWORD is required"),
-  SMTP_FROM: z.string().min(1, "SMTP_FROM is required"),
+  RESEND_API_KEY: z.string().min(1, "RESEND_API_KEY is required"),
+  RESEND_FROM: z.string().min(1, "RESEND_FROM is required"),
 
   CONTACT_EMAIL: z.string().email("CONTACT_EMAIL must be a valid email"),
 
@@ -35,12 +32,9 @@ if (!parsed.success) {
 export const config = {
   port: parsed.data.PORT,
 
-  smtp: {
-    host: parsed.data.SMTP_HOST,
-    port: parsed.data.SMTP_PORT,
-    user: parsed.data.SMTP_USER,
-    password: parsed.data.SMTP_PASSWORD,
-    from: parsed.data.SMTP_FROM,
+  resend: {
+    apiKey: parsed.data.RESEND_API_KEY,
+    from: parsed.data.RESEND_FROM,
   },
 
   contactEmail: parsed.data.CONTACT_EMAIL,
