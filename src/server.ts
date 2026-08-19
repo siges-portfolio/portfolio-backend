@@ -4,6 +4,7 @@ import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
 import { config } from "./config";
 import { contactRoute } from "./routes/contact";
+import type { FastifyError } from "fastify";
 
 async function buildServer() {
   const app = Fastify({
@@ -38,7 +39,7 @@ async function buildServer() {
 
   // Centralized error handler. Ensures no stack traces or internal
   // details ever reach the client, and every unexpected error is logged.
-  app.setErrorHandler((error, request, reply) => {
+  app.setErrorHandler((error: FastifyError, request, reply) => {
     if (error.statusCode === 429) {
       return reply.status(429).send({
         success: false,
